@@ -14,3 +14,5 @@
 std::string fetchAndFormatMediaResults(const std::string& query);
 
 std::unordered_map<std::string, std::string> parseFormData(const std::string& body);
+
+bool infoCheck(const std::string& username, const std::string& password);

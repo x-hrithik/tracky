@@ -1,25 +1,23 @@
 #include "includes.h"
 using json = nlohmann::json;
 
-std::ifstream users_file("users.json");
-json usersData = json::parse(users_file);
+bool infoCheck(const std::string & username, const std::string & password) {
+    std::ifstream users_file("users.json");
+    if (!users_file) return false;
 
-for (const json& item : usersData["users"]) {
-    std::string user, pass;
+    json usersData = json::parse(users_file);
 
-    if (item.contains("username")) {
-        user = item["username"];
-    }
-    else {
-        user = "invalid username";
+    for (const json& item : usersData["users"]) {
+        if (item.contains("username") && item.contains("password")) {
+            std::string storedUser = item["username"];
+            std::string storedPass = item["password"];
+
+            if (storedUser == username && storedPass == password) {
+                return true;
+            }
+        }
     }
 
-    if (item.contains("password")) {
-        pass = item["password"];
-    }
-    else {
-        pass = "Incorrect password";
-    }
-    if (user == form["username"] && pass == form["password"])
+    return false;
 }
 
