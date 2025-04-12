@@ -33,16 +33,15 @@ int main() {
     CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::Post)([](const crow::request& req) {
         std::unordered_map<std::string, std::string> form = parseFormData(req.body);
 
-        if (infoCheck(form["username"], form["password"])) {
-            return crow::response(200, "test worked correct info");
+        if (infoCheckLogin(form["username"], form["password"])) {
+            crow::response res("login works");
+            res.add_header("cookie set", "username=" + form["username"]);
+            return res;
         }
         else {
             return crow::response(401, "Incorrect USER and PASS. (test worked)");
         }
         });
-
-
-
 
     app.port(8080).multithreaded().run();
     return 0;

@@ -11,8 +11,11 @@
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
 
+//search api format
 std::string fetchAndFormatMediaResults(const std::string& query);
 
+//map for user names and passwords
 std::unordered_map<std::string, std::string> parseFormData(const std::string& body);
 
-bool infoCheck(const std::string& username, const std::string& password);
+//checks for user and pass
+bool infoCheckLogin(const std::string& username, const std::string& password);
