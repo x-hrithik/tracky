@@ -1,4 +1,4 @@
-#include "includes.h"
+#include "sight.h"
 using json = nlohmann::json;
 
 //map to store and split user name pass from html req, could also use streamview for this btw
@@ -32,7 +32,7 @@ bool infoCheckLogin(const std::string & username, const std::string & password) 
             std::string storedPass = item["password"];
 
             if (storedUser == username && storedPass == password) {
-                return true;
+                return true;    
             }
         }
     }
