@@ -20,7 +20,7 @@ std::string fetchAndFormatMediaResults(const std::string& query) {
 
     std::string html;
 
-    if (!data.contains("results") or !data["results"].is_array()) {
+    if (!data.contains("results") || !data["results"].is_array()) {
         return "<p>NO RESULTS TRY SOMETHING ELSE</p>";
     }
 

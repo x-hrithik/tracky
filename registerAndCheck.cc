@@ -20,7 +20,7 @@ bool infoCheckSignUp(const std::string& userData) {
 	users_file.close();
 
 	for (const json& item : usersData["users"]) {
-		if (item.contains("username") and item["username"] == userData) {
+		if (item.contains("username") && item["username"] == userData) {
 			return true;
 		}
 	}
