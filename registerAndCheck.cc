@@ -30,6 +30,10 @@ bool infoCheckSignUp(const std::string& userData) {
 //if username isn't taken then allows user to register an account
 bool registerUser(const std::string& username, const std::string& password) {
 
+	//to hash the password
+	std::hash<std::string> hasher;
+	size_t hashedPassword = hasher(password); 
+
 	json newUser;
 
 	if (!fileExists("users.json")) {
@@ -40,7 +44,7 @@ bool registerUser(const std::string& username, const std::string& password) {
 	users_file.close();
 
 	newUser["username"] = username;
-	newUser["password"] = password;
+	newUser["password"] = std::to_string(hashedPassword); //gets hashed password as a string
 
 	usersData["users"].push_back(newUser);
 	std::ofstream users_file_out("users.json");
