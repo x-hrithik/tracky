@@ -9,7 +9,7 @@ I'm getting help from a friend too.
 
 - [x] Search functionality using a public media API (TMDB)
 - [x] Sign up / login system
-- [ ] Password Hasher
+- [x] Password Hasher
 - [ ] User specific lists (Favorites, Watchlist, Dislikes...)
 - [ ] Ability to remove or edit list entries
 - [ ] Basic cookie/session handling
