@@ -27,11 +27,16 @@ bool infoCheckLogin(const std::string & username, const std::string & password) 
     json usersData = json::parse(users_file);
 
     for (const json& item : usersData["users"]) {
+
+        std::hash<std::string> hasher;
+        size_t hashedPassword = hasher(password);
+        std::string inputHash = std::to_string(hashedPassword);
+
         if (item.contains("username") && item.contains("password")) {
             std::string storedUser = item["username"];
             std::string storedPass = item["password"];
 
-            if (storedUser == username && storedPass == password) {
+            if (storedUser == username && storedPass == inputHash) {
                 return true;    
             }
         }
