@@ -5,11 +5,27 @@ using json = nlohmann::json;
 int main() {
     crow::SimpleApp app;
 
-    CROW_ROUTE(app, "/")([] {
+    CROW_ROUTE(app, "/")([](const crow::request& req) {
         std::ifstream file("home.html");
         std::stringstream buffer;
         buffer << file.rdbuf();
-        return crow::response(buffer.str());
+        std::string html = buffer.str();
+
+        std::string rawCookie = req.get_header_value("Cookie");
+        auto cookies = parseCookies(rawCookie);
+
+        if (cookies.find("username") != cookies.end()) {
+            std::string name = cookies["username"];
+            size_t pos = html.find("{{username}}");
+            if (pos != std::string::npos) {
+                html.replace(pos, std::string("{{username}}").length(), "Welcome back, " + name + "!");
+            }
+        }
+        else {
+            html.replace(html.find("{{username}}"), std::string("{{username}}").length(), "");
+        }
+
+        return crow::response(html);
         });
 
     CROW_ROUTE(app, "/search")([](const crow::request& req) {
