@@ -5,7 +5,7 @@ First project with C++ (first real programming project in general)
 The goal of this project is really to just get my self understanding C++ even just a little bit.
 I'm getting help from a friend too.
 
-# Features
+# To Do
 
 - [x] Search functionality using a public media API (TMDB)
 - [x] Sign up / login system
