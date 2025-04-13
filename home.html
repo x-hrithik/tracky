@@ -45,14 +45,16 @@
         <button type="submit">Search</button>
     </form>
 
-    <h2>Login</h2>
+    <h2>{{username}}</h2>
+
+    <h3>Login</h3>
     <form method="POST" action="/login">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Login</button>
     </form>
 
-    <h2>Sign Up</h2>
+    <h4>Sign Up</h4>
     <form action="/signup" method="POST">
         <input type="text" name="username" placeholder="Enter a username" required>
         <input type="password" name="password" placeholder="Enter a password" required>
