@@ -11,6 +11,7 @@ I'm getting help from a friend too.
 - [x] Sign up / login system
 - [x] Password Hasher
 - [x] Put cookies to work! (display welcome back message to show set cookies are working properly)
+- [ ] Use Mustache for better scaling
 - [ ] User specific lists (Favorites, Watchlist, Dislikes...)
 - [ ] Ability to remove or edit list entries
 - [ ] Basic cookie/session handling
