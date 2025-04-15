@@ -16,14 +16,13 @@ std::string fetchAndFormatMediaResults(const std::string& query) {
     }
 
     json data = json::parse(cprMediaResponse.text);
-    json results = data["results"];
 
-    std::string html;
-
-    if (!data.contains("results") || !data["results"].is_array()) {
-        return "<p>NO RESULTS TRY SOMETHING ELSE</p>";
+    if (!data.contains("results") || !data["results"].is_array() || data["results"].empty()) {
+        return "<p>NOTHING FOUND FOR \"" + query + "\". TRY AGAIN</p>";
     }
 
+    json results = data["results"];
+    std::string html;
 
     for (const json& item : results) {
         std::string title;
