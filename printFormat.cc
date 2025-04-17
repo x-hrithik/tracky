@@ -1,4 +1,4 @@
-#include "sight.h"
+#include "vedas.h"
 
 using json = nlohmann::json;
 
@@ -12,7 +12,7 @@ std::string fetchAndFormatMediaResults(const std::string& query) {
     cpr::Response cprMediaResponse = cpr::Get(cpr::Url{ url });
 
     if (cprMediaResponse.status_code != 200) {
-        return "<p>API ERROR FAILED TO FETCH TMDB status code: " + std::to_string(cprMediaResponse.status_code) + "</p>";
+        return "<p>API ERROR FAILED TO FETCH TMDB STATUS CODE: " + std::to_string(cprMediaResponse.status_code) + "</p>";
     }
 
     json data = json::parse(cprMediaResponse.text);
