@@ -1,34 +1,42 @@
 #define CROW_MAIN
-#include "sight.h"
+#include "vedas.h"
 using json = nlohmann::json;
 
 int main() {
+    crow::mustache::set_base("templates");
     crow::SimpleApp app;
 
-    CROW_ROUTE(app, "/")([](const crow::request& req) {
-        std::ifstream file("home.html");
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        std::string html = buffer.str();
-
+    CROW_ROUTE(app, "/")
+        ([](const crow::request& req) {
         std::string rawCookie = req.get_header_value("Cookie");
-        auto cookies = parseCookies(rawCookie);
+        std::unordered_map<std::string, std::string> cookies = parseCookies(rawCookie);
+
+        crow::mustache::context ctx;
 
         if (cookies.find("username") != cookies.end()) {
-            std::string name = cookies["username"];
-            size_t pos = html.find("{{username}}");
-            if (pos != std::string::npos) {
-                html.replace(pos, std::string("{{username}}").length(), "Welcome back, " + name + "!");
-            }
-        }
-        else {
-            html.replace(html.find("{{username}}"), std::string("{{username}}").length(), "");
+            ctx["username"] = cookies["username"];
         }
 
-        return crow::response(html);
-        });
+        return crow::mustache::load("home.html").render(ctx);
+            });
 
-    CROW_ROUTE(app, "/search")([](const crow::request& req) {
+
+    CROW_ROUTE(app, "/static/<string>")
+        ([](const std::string& filename) {
+        std::ifstream in("static/" + filename, std::ifstream::in);
+        if (!in) return crow::response(404);
+        std::ostringstream contents;
+        contents << in.rdbuf();
+        in.close();
+
+        crow::response res(contents.str());
+        res.add_header("Content-Type", "text/css");
+        return res;
+            });
+
+
+    CROW_ROUTE(app, "/search")
+        ([](const crow::request& req) {
         const char* q = req.url_params.get("q");
 
         if (!q) {
@@ -39,9 +47,11 @@ int main() {
         std::string html = fetchAndFormatMediaResults(query);
 
         return crow::response(html);
-        });
+            });
 
-    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::Post)([](const crow::request& req) {
+
+    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::Post)
+        ([](const crow::request& req) {
         std::unordered_map<std::string, std::string> form = parseFormData(req.body);
 
         if (infoCheckLogin(form["username"], form["password"])) {
@@ -52,9 +62,11 @@ int main() {
         else {
             return crow::response(401, "Incorrect USER and PASS. (test worked)");
         }
-        });
+            });
 
-    CROW_ROUTE(app, "/signup").methods(crow::HTTPMethod::Post)([](const crow::request& req) {
+
+    CROW_ROUTE(app, "/signup").methods(crow::HTTPMethod::Post)
+        ([](const crow::request& req) {
         std::unordered_map<std::string, std::string> form = parseFormData(req.body);
 
         std::string username = form["username"];
@@ -69,8 +81,10 @@ int main() {
             res.add_header("Set-Cookie", "username=" + username);
             return res;
         }
-    return crow::response(500, "failed to register user");
-    });
+        return crow::response(500, "failed to register user");
+            });
+
+
 
     app.port(8080).multithreaded().run();
     return 0;
